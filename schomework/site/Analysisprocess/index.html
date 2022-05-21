@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Analysis Process - Myhomework</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Analysis Process";
+    var mkdocs_page_input_path = "Analysisprocess.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Myhomework</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Background</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Analysis Process</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">数据来源与下载</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fastq">转为fastq文件</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fastq_1">修改fastq文件名</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fastqc">fastqc质量检测</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cellranger">cellranger</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#10xseuratharmony">多个10x单细胞对象的合并和批次校正：seurat读取+Harmony整合</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">一. 多个单细胞样本的合并</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 读取并合并数据</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 数据质控</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-mergeseurat">3. 查看批次效应（对merge后的Seurat对象进行标准化和降维）</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#harmony">二. 数据整合:harmony</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">整合病例组结果如下</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">细胞注释</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#marker">寻找需要注释细胞的marker基因</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">细胞注释</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">查看每组的细胞组成</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_9">上皮细胞亚群细分</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_10">拟时分析</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#monocle2">Monocle2</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#monocle3">Monocle3</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rna-velocity">RNA Velocity</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#igg-plasma-b-cells">IgG Plasma B Cells差异表达基因</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#igg-plasma-b-cells_1">IgG Plasma B Cells亚群细分</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#-cellphonedb">细胞通讯-cellphoneDB</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../resultanalysis/">Result Analysis</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Myhomework</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Analysis Process</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="10x">10x分析流程</h1>
+<h2 id="_1">数据来源与下载</h2>
+<table>
+<thead>
+<tr>
+<th>SRA号</th>
+<th>样本名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRR11955216</td>
+<td>Healthy 1</td>
+</tr>
+<tr>
+<td>SRR11955217</td>
+<td>Healthy 2</td>
+</tr>
+<tr>
+<td>SRR11955218</td>
+<td>Mild</td>
+</tr>
+<tr>
+<td>SRR11955219</td>
+<td>Severe</td>
+</tr>
+<tr>
+<td>通过NCBI官方推荐的prefetch来下载数据：</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>prefetch --option-file SRR_lists.txt
+</code></pre>
+<h2 id="fastq">转为fastq文件</h2>
+<pre><code>cat sample.txt | while read id
+do 
+fastq-dump --gzip --split-files -A $id ${id}.sra
+done
+</code></pre>
+<p><img alt="结果1" src="../img/02.png" title="结果1" /></p>
+<p>这里只输出了两个文件, 但是看别的教程都是三个文件, 包含index,barcode+umi和reads,sample index那个文件不是必须的。</p>
+<h2 id="fastq_1">修改fastq文件名</h2>
+<p>根据10x官网说明，在后续处理数据之前，要先更改fastq文件名：
+<img alt="inf" src="../img/03.png" title="inf" /></p>
+<pre><code>cat sample.txt | while read id
+do
+mv ${id}_1.fastq.gz ${id}_S1_L001_R1_001.fastq.gz;
+mv ${id}_2.fastq.gz ${id}_S1_L001_R2_001.fastq.gz;
+done
+</code></pre>
+<h2 id="fastqc">fastqc质量检测</h2>
+<pre><code>find ./ -name '*R1*.gz' &gt; id_1.txt
+find ./ -name '*R2*.gz' &gt; id_2.txt
+cat id_1.txt id_2.txt &gt; id_all.txt
+cat id_all.txt | xargs fastqc -t 8 -o ./fastqc/
+</code></pre>
+<h2 id="cellranger">cellranger</h2>
+<p>cellranger有多个流程，主要有4个流程 mkfastq、定量 count、组合 aggr、reanalyze。
+如果是bcl原始测序数据，需用mkfastq转换为fastq格式(根据index将reads分配至不同的样本)。如果是fastq格式数据，则可直接用count命令定量，得到表达矩阵，然后用aggr命令整合样本(比如实验组有多个重复样本)，最后reanalyze进行后续降维聚类等等分析。</p>
+<p>cellranger安装：</p>
+<pre><code>curl -o cellranger-6.1.2.tar.gz &quot;https://cf.10xgenomics.com/releases/cell-exp/cellranger-6.1.2.tar.gz?Expires=1652123707&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZi4xMHhnZW5vbWljcy5jb20vcmVsZWFzZXMvY2VsbC1leHAvY2VsbHJhbmdlci02LjEuMi50YXIuZ3oiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2NTIxMjM3MDd9fX1dfQ__&amp;Signature=UweLR-FqWO5mPRCQmE7Cf-C99SOE~Q3jcxhY~HxOBosPmxHtEKoJjbxJayMc1XMPYzT7a-NqDWJ7KsHA0fiSXlB~4RSwzttIxo4KdnOjNGUfA-crtsJAwUbxxy1gjYm6TRABNfQb8O1lM9Wm2u4o80y6uZgDy1Kf3DnVyta-Y3gaQjNzvOVEFPZB8jJk9Eed9rc6jH3l896a-8I6qNuyV5EgoqMnXiKA~Ke0ShK7TMHZjhXJjHOT2cDgbr1Tlz8UR8bwcUuewvtNlVm859SvFkoEPsBiHcOaaEz1vtIJHH709bplvIwtah3-OXdHl5ES5EafqkTi2sdGD-z0lcEhWg__&amp;Key-Pair-Id=APKAI7S6A5RYOXBWRPDA&quot;
+</code></pre>
+<p><img alt="ref" src="../img/04.png" title="ref" /></p>
+<p>下载参考基因组数据:</p>
+<pre><code>curl -O https://cf.10xgenomics.com/supp/cell-exp/refdata-gex-GRCh38-2020-A.tar.gz
+</code></pre>
+<p><img alt="ref1" src="../img/05.png" title="ref1" /></p>
+<p>count细胞定量
+这个过程是最重要的，它完成细胞与基因的定量，它将比对、质控、定量都包装了起来:</p>
+<pre><code>cat sample.txt | while read id
+do
+cellranger count --id=${id} \
+--fastqs=/public/workspace/stu19230111/singlecell/rawdata/data/ \
+--sample=${id} \
+--transcriptome=/public/workspace/stu19230111/singlecell/reference/refdata-gex-GRCh38-2020-A/
+done
+</code></pre>
+<p><img alt="过程" src="../img/06.png" title="过程" />
+cellranger count结果解读<a href="https://zhuanlan.zhihu.com/p/390516422">参阅</a></p>
+<p>得到cellranger分析结果后，下游我们需要将filtered_gene_bc_matrices 文件夹作为输入文件输入到seurat或者scanpy。
+filtered_gene_bc_matrices 文件夹包含三个文件：barcodes.tsv；features.tsv；matrix.mtx</p>
+<h2 id="10xseuratharmony">多个10x单细胞对象的合并和批次校正：seurat读取+Harmony整合</h2>
+<p>healthy组</p>
+<h3 id="_2">一. 多个单细胞样本的合并</h3>
+<h4 id="1">1. 读取并合并数据</h4>
+<h5 id="11">1.1 读取数据</h5>
+<pre><code>assays &lt;- dir(&quot;data1/&quot;)
+names &lt;- rep(&quot;/raw_feature_bc_matrix&quot;,length(assays))
+dir &lt;- paste0(&quot;data1/&quot;, assays)
+dir &lt;- paste0(dir,names)
+# 按文件顺序给样本命名，名称不要以数字开头，中间不能有空格 samples_name = assays
+</code></pre>
+<h5 id="12-seurat">1.2 批量创建seurat对象</h5>
+<pre><code>scRNAlist &lt;- list()
+for(i in 1:length(dir)){
+  counts &lt;- Read10X(data.dir = dir[i])
+  #不设置min.cells过滤基因会导致CellCycleScoring报错：
+  #Insufficient data values to produce 24 bins.  
+  scRNAlist[[i]] &lt;- CreateSeuratObject(counts, project=samples_name[i],
+                                       min.cells=3, min.features = 200)
+  #给细胞barcode加个前缀，防止合并后barcode重名
+  scRNAlist[[i]] &lt;- RenameCells(scRNAlist[[i]], add.cell.id = samples_name[i])   
+  #计算线粒体基因比例
+  if(T){    
+    scRNAlist[[i]][[&quot;percent.mt&quot;]] &lt;- PercentageFeatureSet(scRNAlist[[i]], pattern = &quot;^MT-&quot;) 
+  }
+   #计算核糖体基因比例
+   if(T){
+     scRNAlist[[i]][[&quot;percent.rb&quot;]] &lt;- PercentageFeatureSet(scRNAlist[[i]], pattern = &quot;^RP[SL]&quot;)
+   }
+   #计算红细胞基因比例
+   if(T){
+     HB.genes &lt;- c(&quot;HBA1&quot;,&quot;HBA2&quot;,&quot;HBB&quot;,&quot;HBD&quot;,&quot;HBE1&quot;,&quot;HBG1&quot;,&quot;HBG2&quot;,&quot;HBM&quot;,&quot;HBQ1&quot;,&quot;HBZ&quot;)
+     HB.genes &lt;- CaseMatch(HB.genes, rownames(scRNAlist[[i]]))
+     scRNAlist[[i]][[&quot;percent.HB&quot;]]&lt;-PercentageFeatureSet(scRNAlist[[i]], features=HB.genes) 
+   }
+}
+
+### 给列表命名并保存数据
+dir.create(&quot;Integrate&quot;)
+setwd(&quot;./Integrate&quot;)
+
+names(scRNAlist) &lt;- samples_name
+</code></pre>
+<h5 id="13-mergescrnalistseurat">1.3 使用merge函数将scRNAlist合成一个Seurat对象</h5>
+<pre><code>scRNA &lt;- merge(scRNAlist[[1]], scRNAlist[2:length(scRNAlist)])
+scRNA
+# An object of class Seurat 
+# 18818 features across 19738 samples within 1 assay 
+# Active assay: RNA (18818 features, 0 variable features)
+table(scRNA$orig.ident)
+</code></pre>
+<h4 id="2">2. 数据质控</h4>
+<h5 id="_3">质控前</h5>
+<pre><code>theme.set2 = theme(axis.title.x=element_blank())
+# 设置绘图元素
+#plot.featrures = c(&quot;nFeature_RNA&quot;, &quot;nCount_RNA&quot;, &quot;percent.mt&quot;)
+plot.featrures = c(&quot;nFeature_RNA&quot;, &quot;nCount_RNA&quot;, &quot;percent.mt&quot;, &quot;percent.rb&quot;, &quot;percent.HB&quot;)
+group = &quot;orig.ident&quot;
+# 质控前小提琴图
+plots = list()
+for(i in seq_along(plot.featrures)){
+  plots[[i]] = VlnPlot(scRNA, group.by=group, pt.size = 0,
+                       features = plot.featrures[i]) + theme.set2 + NoLegend()}
+violin &lt;- wrap_plots(plots = plots, nrow=2)    
+dir.create(&quot;QC&quot;)
+ggsave(&quot;QC/health_vlnplot_before_qc.pdf&quot;, plot = violin, width = 9, height = 8)
+</code></pre>
+<p><img alt="健康前" src="../img/07.png" title="健康前" /></p>
+<h5 id="_4">质控后</h5>
+<pre><code>minGene=500
+maxGene=6000
+#maxUMI=15000
+pctMT=15
+#pctHB=1
+### 数据质控并绘制小提琴图
+scRNA &lt;- subset(scRNA, subset =  nFeature_RNA &gt; minGene &amp; nFeature_RNA &lt; maxGene &amp; percent.mt &lt; pctMT)
+#scRNA &lt;- subset(scRNA, subset = nCount_RNA &lt; maxUMI &amp; nFeature_RNA &gt; minGene &amp; 
+#                  nFeature_RNA &lt; maxGene &amp; percent.mt &lt; pctMT &amp; percent.HB &lt; pctHB)
+plots = list()
+for(i in seq_along(plot.featrures)){
+  plots[[i]] = VlnPlot(scRNA, group.by=group, pt.size = 0,
+                       features = plot.featrures[i]) + theme.set2 + NoLegend()}
+violin &lt;- wrap_plots(plots = plots, nrow=2)  
+ggsave(&quot;QC/health_vlnplot_after_qc.pdf&quot;, plot = violin, width = 10, height = 8) 
+</code></pre>
+<p><img alt="健康后" src="../img/08.png" title="健康后" /></p>
+<h4 id="3-mergeseurat">3. 查看批次效应（对merge后的Seurat对象进行标准化和降维）</h4>
+<pre><code>scRNA &lt;- subset(scRNA, subset = nCount_RNA &lt; maxUMI &amp; nFeature_RNA &gt; minGene &amp; 
+                  nFeature_RNA &lt; maxGene &amp; percent.mt &lt; pctMT &amp; percent.HB &lt; pctHB)
+scRNA &lt;- NormalizeData(scRNA) %&gt;% FindVariableFeatures(nfeatures = 2000) %&gt;% ScaleData()
+scRNA &lt;- RunPCA(scRNA, verbose = F)
+ElbowPlot(scRNA, ndims = 50)
+pc.num=1:30
+scRNA &lt;- scRNA %&gt;% RunTSNE(dims=pc.num) %&gt;% RunUMAP(dims=pc.num)
+scRNA &lt;- FindNeighbors(scRNA, dims=pc.num) %&gt;% FindClusters()
+p &lt;- DimPlot(scRNA, label = T)
+ggsave(&quot;health_UMAP_All.pdf&quot;, p, width = 8, height = 6)
+p &lt;- DimPlot(scRNA, group.by = &quot;orig.ident&quot;)
+ggsave(&quot;health_UMAP_Samples.pdf&quot;, p, width = 8, height = 6)
+p &lt;- DimPlot(scRNA, group.by = &quot;orig.ident&quot;, split.by = &quot;orig.ident&quot;, ncol = 4)
+ggsave(&quot;health_UMAP_Samples_Split.pdf&quot;, p, width = 18, height = 12)
+</code></pre>
+<p><img alt="健康split" src="../img/09.png" title="健康split" />
+<img alt="健康all" src="../img/10.png" title="健康all" /></p>
+<h3 id="harmony">二. 数据整合:harmony</h3>
+<pre><code>scRNAlist &lt;- SplitObject(scRNA, split.by = &quot;orig.ident&quot;)
+scRNA@meta.data$stim &lt;- c(rep(&quot;health1&quot;, ncol(scRNAlist[[1]])), rep(&quot;health2&quot;, ncol(scRNAlist[[2]])))#赋值条件变量
+
+#未经校正的PC中的数据集之间存在明显差异：
+options(repr.plot.height = 5, repr.plot.width = 12) 
+p1 &lt;- DimPlot(object = scRNA, reduction = &quot;pca&quot;, pt.size = .1, group.by = &quot;stim&quot;) 
+p2 &lt;- VlnPlot(object = scRNA, features = &quot;PC_1&quot;, group.by = &quot;stim&quot;, pt.size = .1) 
+pdf(&quot;health_harmony整合前.pdf&quot;)
+plot_grid(p1,p2) 
+dev.off()
+###运行Harmony的最简单方法是传递Seurat对象并指定要集成的变量。RunHarmony返回Seurat对象，并使用更正后的Harmony坐标。让我们将plot_convergence设置为TRUE，这样我们就可以确保Harmony目标函数在每一轮中都变得更好。
+options(repr.plot.height = 2.5, repr.plot.width = 6) 
+scRNA &lt;- scRNA %&gt;% RunHarmony(&quot;stim&quot;, plot_convergence = TRUE) 
+#要直接访问新的Harmony embeddings，请使用Embeddings命令。
+harmony_embeddings &lt;- Embeddings(scRNA, 'harmony') 
+harmony_embeddings[1:5, 1:5]
+#让我们查看确认数据集在Harmony运行之后的前两个维度中得到很好的整合。
+options(repr.plot.height = 5, repr.plot.width = 12) 
+p1 &lt;- DimPlot(object = scRNA, reduction = &quot;harmony&quot;, pt.size = .1, group.by = &quot;stim&quot;) 
+p2 &lt;- VlnPlot(object = scRNA, features = &quot;harmony_1&quot;, group.by = &quot;stim&quot;, pt.size = .1) 
+pdf(&quot;health_harmony整合后.pdf&quot;)
+plot_grid(p1,p2) 
+dev.off()
+</code></pre>
+<p>整合前：
+<img alt="健康整合前" src="../img/11.png" title="健康整合前" />
+整合后：
+<img alt="健康整合后" src="../img/12.png" title="健康整合后" />
+UMAP图：</p>
+<pre><code>scRNA &lt;- scRNA %&gt;% 
+RunUMAP(reduction = &quot;harmony&quot;, dims = 1:20) %&gt;% 
+FindNeighbors(reduction = &quot;harmony&quot;, dims = 1:20) %&gt;% 
+FindClusters(resolution = 0.5) %&gt;% 
+identity() 
+#UMAP embedding中，我们可以看到更复杂的结构。由于我们使用harmony embeddings，因此UMAP embeddings混合得很好。
+options(repr.plot.height = 4, repr.plot.width = 10) 
+pdf(&quot;health_harmony_UMAP_embedding.pdf&quot;)
+DimPlot(scRNA, reduction = &quot;umap&quot;, group.by = &quot;stim&quot;, pt.size = .1, split.by = 'stim')
+dev.off()
+#在这种充分混合的嵌入中，我们可以开始使用聚类分析来识别细胞类型。
+
+scRNA=RunUMAP(scRNA,reduction = &quot;harmony&quot;, dims = 1:20)
+pdf(&quot;health_harmony_UMAP_split.pdf&quot;)
+DimPlot(scRNA,label = T,split.by = 'stim')
+dev.off()
+
+options(repr.plot.height = 4, repr.plot.width = 6) 
+pdf(&quot;health_harmony_UMAP.pdf&quot;)
+DimPlot(scRNA, reduction = &quot;umap&quot;, label = TRUE, pt.size = .1) 
+dev.off()
+</code></pre>
+<p><img alt="健康split" src="../img/13.png" title="健康split" />
+<img alt="健康all" src="../img/14.png" title="健康all" />
+比较了两名健康患者的数据。来自这些健康患者的细胞非常相似。从两个健康牙龈活检中获得的数据集的高度一致性并放大研究后，这些数据集被合并并处理在一起以进行后续分析。</p>
+<h2 id="_5">整合病例组结果如下</h2>
+<p><img alt="allsplit" src="../img/15.png" title="allsplit" />
+<img alt="allall" src="../img/16.png" title="allall" /></p>
+<h2 id="_6">细胞注释</h2>
+<h3 id="marker">寻找需要注释细胞的marker基因</h3>
+<pre><code>pbmc &lt;- readRDS(&quot;./AllIntegrate/All_scRNA.rds&quot;)
+pbmc &lt;- JackStraw(pbmc, num.replicate = 100) 
+pbmc &lt;- ScoreJackStraw(pbmc, dims = 1:20) 
+JackStrawPlot(pbmc, dims = 1:15)
+pbmc &lt;- FindNeighbors(pbmc, dims = 1:10)
+pbmc &lt;- FindClusters(pbmc, resolution = 0.5) 
+head(Idents(pbmc), 5) 
+pbmc &lt;- RunUMAP(pbmc, dims = 1:10) 
+pbmc &lt;- RunTSNE(pbmc, dims = 1:10) 
+pbmc.markers &lt;- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+library(dplyr)
+top10 &lt;- pbmc.markers %&gt;% group_by(cluster) %&gt;% top_n(n = 10, wt = avg_log2FC)
+p &lt;- DoHeatmap(pbmc, features = top10$gene) + NoLegend()
+ggsave(&quot;Heatmap.pdf&quot;, p, width = 18, height = 12)
+top1 &lt;- pbmc.markers %&gt;% group_by(cluster) %&gt;% top_n(n = 1, wt = avg_log2FC)
+p &lt;- FeaturePlot(pbmc,features = top1$gene)
+ggsave(&quot;Heatmap2.pdf&quot;, p, width = 18, height = 30)
+p &lt;- FeaturePlot(pbmc,features = c('MZB1','KRT14','CDH1','HOPX','IGFBP5','LAMB3','KRT1','TPSB2','TRAC','CXCR6','LYZ','AIF1','COL1A1','MS4A1','CLDN5','RGS5','MKI67','CLEC9A','IRF8','KDR','TIE1','PTPRC'))
+ggsave(&quot;Heatmap1.pdf&quot;, p, width = 18, height = 30)
+#点图
+markers &lt;-  c('MZB1','KRT14','CDH1','HOPX','IGFBP5','LAMB3','KRT1','TPSB2','TRAC','CXCR6','LYZ','AIF1','COL1A1','MS4A1','CLDN5','RGS5','MKI67','CLEC9A','IRF8','KDR','TIE1','PTPRC')
+DotPlot(pbmc, features = unique(markers),group.by = &quot;seurat_clusters&quot;)+RotatedAxis()+
+  scale_x_discrete(&quot;&quot;)+scale_y_discrete(&quot;&quot;)
+ggsave(&quot;celltype_marker_dot.pdf&quot;,width = 9.5,height = 6)
+ggsave(&quot;celltype_marker_dot.pdf&quot;,width = 9.5,height = 6)
+</code></pre>
+<p>显示用于细胞类型分类的谱系标记基因的表达：
+<img alt="marker1" src="../img/17.png" title="marker1" />
+<img alt="marker2" src="../img/18.png" title="marker2" />
+<img alt="marker4" src="../img/20.png" title="marker4" />
+<img alt="marker3" src="../img/19.png" title="marker3" /></p>
+<h3 id="_7">细胞注释</h3>
+<pre><code>bfreaname.pbmc &lt;- pbmc
+new.cluster.ids &lt;- c(&quot;IgG Plasma B Cells&quot;, &quot;Epithelial 1&quot;, &quot;Mast Cells&quot;, &quot;T Cells&quot;, &quot;Macrophage 1&quot;, &quot;Follicular B Cells&quot;, 
+                     &quot;Stromal&quot;,&quot;Memory B Cells&quot;,&quot;Epithelial 2&quot;,  &quot;Endothelial 1&quot;,&quot;Perivasular&quot;,&quot;Macrophage 2&quot;,&quot;TAGs&quot;,&quot;DC&quot;,&quot;pDC&quot;,&quot;Endothelial 2&quot;)
+#帮助单细胞测序进行注释的数据库：
+#http://mp.weixin.qq.com/s?__biz=MzI5MTcwNjA4NQ==&amp;mid=2247502903&amp;idx=2&amp;sn=fd21e6e111f57a4a2b6c987e391068fd&amp;chksm=ec0e09bddb7980abf038f62d03d3beea6249753c8fba69b69f399de9854fc208ca863ca5bc23&amp;mpshare=1&amp;scene=24&amp;srcid=1110SJhxDL8hmNB5BThrgOS9&amp;sharer_sharetime=1604979334616&amp;sharer_shareid=853c5fb0f1636baa0a65973e8b5db684#rd
+#cellmarker: http://biocc.hrbmu.edu.cn/CellMarker/index.jsp
+names(new.cluster.ids) &lt;- levels(pbmc)
+pbmc &lt;- RenameIdents(pbmc, new.cluster.ids)
+pbmc$celltype &lt;- pbmc@active.ident
+pdf(&quot;注释.pdf&quot;)
+DimPlot(pbmc, reduction = &quot;umap&quot;, label = TRUE, pt.size = 0.5) + NoLegend()
+dev.off()
+
+p &lt;- DimPlot(pbmc,label = T,split.by = 'stim')
+ggsave(&quot;注释_split.pdf&quot;, p, width = 18, height = 12)
+saveRDS(pbmc, &quot;All_注释_scRNA.rds&quot;)
+</code></pre>
+<p><img alt="注释1" src="../img/21.png" title="注释1" />
+<img alt="注释2" src="../img/22.png" title="注释2" /></p>
+<p>在上皮区室中，我们确定了三个亚群（集群1，8和12），可能对应于不同的分化阶段。簇1显示具有HOPX，IGFBP5和LAMM3表达的基础细胞状态;和簇8是更成熟的细胞状态，表达KRT1，KRT8，LAT（用于激活T细胞的连接子）和PTGER，两者都是TCR（T细胞抗原受体）信号传导（图1B，C; 图 1 — 图补充 3).</p>
+<p>通过表达增殖细胞（如MKI67和TOP2A）的规范标记基因，在第12簇中鉴定增殖基底细胞（Whitfield等人，2006）; 图1B，C; 图 1 — 图补充 2).我们还根据胶原蛋白的表达鉴定间充质（基质成纤维细胞）（簇6）;一个血管周围（10簇）通过高表达PDGFRB和RGS5 (图1B，C; 图 1 — 图补充 3);两个内皮（簇9和15），其中簇9特异性表达CLDN5和EMCN，簇15显示参与血管生成调节的基因的高表达，例如KDR，TIE1和SOX18（Jones等人，2001;弗朗索瓦等人，2008年; 图1B，C; 图 1 — 图补充 3).</p>
+<p>B细胞显示在三个不同的群体（簇0，5和7）中，簇0和5分别表达滤泡和IgG浆B细胞的MZB1，DERL3和IGHG4特征，簇7表达MS4A1和CD37对应于记忆B细胞。T细胞显示在通过表达规范TRM标记CXCR6鉴定的簇3中。</p>
+<h3 id="_8">查看每组的细胞组成</h3>
+<pre><code>#table(pbmc$orig.ident)#查看各组细胞数
+table(pbmc$stim)
+#BM1  BM2  BM3  GM1  GM2  GM3 
+#2754  747 2158 1754 1528 1983
+prop.table(table(Idents(pbmc)))
+
+#table(Idents(pbmc), pbmc$orig.ident)#各组不同细胞群细胞数
+table(Idents(pbmc), pbmc$stim)
+#Cellratio &lt;- prop.table(table(Idents(scedata), scedata$orig.ident), margin = 2)#计算各组样本不同细胞群比例
+Cellratio &lt;- prop.table(table(Idents(pbmc), pbmc$stim), margin = 2)
+Cellratio
+Cellratio &lt;- as.data.frame(Cellratio)
+colourCount = length(unique(Cellratio$Var1))
+library(ggplot2)
+#################
+p&lt;-ggplot(Cellratio) + 
+  geom_bar(aes(x =Var2, y= Freq, fill = Var1),stat = &quot;identity&quot;,width = 0.7,size = 0.5,colour = '#222222')+ 
+  theme_classic() +
+  labs(x='Sample',y = 'Ratio')+
+  coord_flip()+
+  theme(panel.border = element_rect(fill=NA,color=&quot;black&quot;, size=0.5, linetype=&quot;solid&quot;))
+ggsave(&quot;cellrate.pdf&quot;, p, width = 18, height = 12)
+</code></pre>
+<p><img alt="组成" src="../img/23.png" title="组成" />
+在转录组学水平上，细胞景观主要由细胞比例的相应变化。在健康方面，我们观察到滤泡和浆B细胞的数量很少，记忆B细胞在轻度样本中显示出显着的增加，随后在重度样本中。</p>
+<h2 id="_9">上皮细胞亚群细分</h2>
+<pre><code>library(Seurat)
+Stromal &lt;- subset(pbmc, celltype==&quot;Epithelial 1&quot; | celltype==&quot;Epithelial 2&quot;)
+Stromal &lt;- ScaleData(Stromal, vars.to.regress = c(&quot;nCount_RNA&quot;, &quot;percent.mt&quot;), verbose = FALSE)
+Stromal &lt;- FindVariableFeatures(Stromal, nfeatures = 2000)
+Stromal &lt;- RunPCA(Stromal, npcs = 50, verbose = FALSE)
+Stromal &lt;- FindNeighbors(Stromal, reduction = &quot;pca&quot;, dims = 1:50)
+Stromal &lt;- FindClusters(Stromal, 
+                        resolution = seq(from = 0.1, 
+                                         to = 1.0, 
+                                         by = 0.2))
+Stromal &lt;- RunUMAP(Stromal, reduction = &quot;pca&quot;, dims = 1:50)
+library(clustree)
+#clustree(Stromal)
+Idents(Stromal) &lt;- &quot;RNA_snn_res.0.5&quot;
+Stromal$seurat_clusters &lt;- Stromal@active.ident
+p&lt;-DimPlot(Stromal, label = T,pt.size = 1)
+ggsave(&quot;Stromal.pdf&quot;, p, width = 12, height = 12)
+Stromal.markers &lt;- FindAllMarkers(Stromal, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+library(dplyr)
+top5 &lt;- Stromal.markers %&gt;% group_by(cluster) %&gt;% top_n(n = 5, wt = avg_log2FC)
+p &lt;- DoHeatmap(Stromal, features = top5$gene) + NoLegend()
+ggsave(&quot;StromalHeatmap.pdf&quot;, p, width = 18, height = 12)
+</code></pre>
+<p><img alt="细分1" src="../img/24.png" title="细分1" />
+<img alt="细分2" src="../img/25.png" title="细分2" /></p>
+<p>簇0于其他簇之间差异基因富集分析</p>
+<pre><code>library(msigdbr)
+library(ggplot2)
+library(clusterProfiler)
+library(org.Mm.eg.db) ##加载小鼠
+library(org.Hs.eg.db) ##加载人类
+library(fgsea)
+library(dplyr)
+library(tibble)
+library(Seurat)
+
+
+cluster5.markers &lt;- FindMarkers(Stromal, ident.1 = 0, ident.2 = c(1:5), min.pct = 0.25)
+up &lt;-rownames(cluster5.markers[intersect(which(cluster5.markers [,1]&lt;0.05),which(cluster5.markers [,2]&gt;=0.25)),])
+down &lt;-rownames(cluster5.markers[intersect(which(cluster5.markers [,1]&lt;0.05),which(cluster5.markers [,2]&lt;=(-0.25))),])
+##识别up ，down genes
+gs = bitr(up, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+write.csv(ego.bp, file =&quot;Cluster5_up_go.csv&quot;) ##输出up 基因富集的Go term 
+pdf(&quot;Cluster5_up_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Cluster0 Vs.Cluster1:5 up gene GoTerm&quot;))
+dev.off()
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+write.csv(kk,file =&quot;Cluster5_up_kegg.csv&quot;) ##输出up 基因富集的Kegg term
+pdf(&quot;Cluster5_up_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_Up_biological&quot;)) #展示前十个条目
+dev.off()
+
+gs = bitr(down, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+write.csv(ego.bp, file =&quot;Cluster5_down_go.csv&quot;) ##输出down 基因富集的Go term 
+pdf(&quot;Cluster5_down_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Cluster5Vs.Cluster03 down gene GoTerm&quot;))
+dev.off()
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+write.csv(kk,file =&quot;Cluster5_down_kegg.csv&quot;) ##输出down 基因富集的Kegg term 
+pdf(&quot;Cluster5_down_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_biological&quot;)) 
+dev.off()
+
+
+markers = cluster5.markers
+markers$genes = rownames(markers)
+cluster.genes&lt;- markers %&gt;% arrange(desc(avg_log2FC)) %&gt;% dplyr::select(genes,avg_log2FC) #基因按logFC排序
+ranks&lt;- deframe(cluster.genes)
+
+mdb_c2 &lt;- msigdbr(species = &quot;Homo sapiens&quot;, category = &quot;C2&quot;)## 定义基因集，选取C2
+fgsea_sets = mdb_c2 [grep(&quot;^KEGG&quot;,mdb_c2 $gs_name),] %&gt;% split(x = .$gene_symbol, f = .$gs_name)
+length(fgsea_sets)
+fgseaRes&lt;- fgsea(fgsea_sets, stats = ranks, nperm = 1000) #运行fgsea
+
+p &lt;-ggplot(fgseaRes %&gt;% as_tibble() %&gt;% arrange(desc(NES)) %&gt;% filter(pval &lt; 0.05) %&gt;% head(n= 20), aes(reorder(pathway, NES), NES)) +
+  geom_col(aes(fill= NES)) +
+  coord_flip() +
+  labs(x=&quot;KEGG&quot;, y=&quot;Normalized Enrichment Score&quot;,title=&quot;KEGG gene sets NES from GSEA&quot;) ##输出差异排秩前20的条目
+pdf('GSEA-fgsea.pdf',width=8,height=5)
+print(p)
+dev.off()
+</code></pre>
+<p><img alt="富集1" src="../img/26.png" title="富集1" />
+<img alt="富集2" src="../img/27.png" title="富集2" />
+<img alt="富集3" src="../img/28.png" title="富集3" /></p>
+<h2 id="_10">拟时分析</h2>
+<h3 id="monocle2">Monocle2</h3>
+<pre><code>library(monocle)
+##提取表型信息--细胞信息(建议载入细胞的聚类或者细胞类型鉴定信息、实验条件等信息)
+expr_matrix &lt;- as(as.matrix(pbmc@assays$RNA@counts), 'sparseMatrix')
+##提取表型信息到p_data(phenotype_data)里面 
+p_data &lt;- pbmc@meta.data 
+#p_data$celltype &lt;- pbmc@active.ident  ##整合每个细胞的细胞鉴定信息到p_data里面。如果已经添加则不必重复添加
+##提取基因信息 如生物类型、gc含量等
+f_data &lt;- data.frame(gene_short_name = row.names(pbmc),row.names = row.names(pbmc))
+##expr_matrix的行数与f_data的行数相同(gene number), expr_matrix的列数与p_data的行数相同(cell number)
+
+#构建CDS对象
+pd &lt;- new('AnnotatedDataFrame', data = p_data) 
+fd &lt;- new('AnnotatedDataFrame', data = f_data)
+#将p_data和f_data从data.frame转换AnnotatedDataFrame对象。
+cds &lt;- newCellDataSet(expr_matrix,
+                      phenoData = pd,
+                      featureData = fd,
+                      lowerDetectionLimit = 0.5,
+                      expressionFamily = negbinomial.size())
+
+cds &lt;- estimateSizeFactors(cds)
+cds &lt;- estimateDispersions(cds)
+cds &lt;- detectGenes(cds, min_expr = 0.1) #这一操作会在fData(cds)中添加一列num_cells_expressed
+print(head(fData(cds)))#此时有13714个基因
+expressed_genes &lt;- row.names(subset(fData(cds),
+    num_cells_expressed &gt;= 10)) #过滤掉在小于10个细胞中表达的基因，还剩11095个基因。
+
+##使用seurat选择的高变基因⚠️
+express_genes &lt;- VariableFeatures(pbmc)
+cds &lt;- setOrderingFilter(cds, express_genes)
+plot_ordering_genes(cds)
+##使用clusters差异表达基因
+deg.cluster &lt;- FindAllMarkers(pbmc)
+express_genes &lt;- subset(deg.cluster,p_val_adj&lt;0.05)$gene
+cds &lt;- setOrderingFilter(cds, express_genes)
+plot_ordering_genes(cds)
+##使用monocle选择的高变基因⚠️
+disp_table &lt;- dispersionTable(cds)
+disp.genes &lt;- subset(disp_table, mean_expression &gt;= 0.1 &amp; dispersion_empirical &gt;= 1 * dispersion_fit)$gene_id
+cds &lt;- setOrderingFilter(cds, disp.genes)
+plot_ordering_genes(cds)
+
+#这一步输入的expressed_genes来自于步骤4。
+#⚠️⚠️后续分析使用的是该方法
+#也可输入seurat筛选出的高变基因：expressed_genes &lt;- VariableFeatures(pbmc) 
+diff &lt;- differentialGeneTest(cds[expressed_genes,],fullModelFormulaStr=&quot;~celltype&quot;,cores=1) 
+#~后面是表示对谁做差异分析的变量，理论上可以为p_data的任意列名
+head(diff)
+
+##差异表达基因作为轨迹构建的基因,差异基因的选择标准是qval&lt;0.01,decreasing=F表示按数值增加排序
+deg &lt;- subset(diff, qval &lt; 0.01) #选出2829个基因
+deg &lt;- deg[order(deg$qval,decreasing=F),]
+head(deg)
+
+##差异基因的结果文件保存
+write.table(deg,file=&quot;train.monocle.DEG.xls&quot;,col.names=T,row.names=F,sep=&quot;\t&quot;,quote=F)
+
+## 轨迹构建基因可视化
+ordergene &lt;- rownames(deg) 
+cds &lt;- setOrderingFilter(cds, ordergene)  
+#这一步是很重要的，在我们得到想要的基因列表后，我们需要使用setOrderingFilter将它嵌入cds对象，后续的一系列操作都要依赖于这个list。
+#setOrderingFilter之后，这些基因被储存在cds@featureData@data[[&quot;use_for_ordering&quot;]]，可以通过table(cds@featureData@data[[&quot;use_for_ordering&quot;]])查看
+pdf(&quot;train.ordergenes.pdf&quot;)
+plot_ordering_genes(cds)
+dev.off()
+#出的图黑色的点表示用来构建轨迹的差异基因，灰色表示背景基因。红色的线是根据第2步计算的基因表达大小和离散度分布的趋势(可以看到，找到的基因属于离散度比较高的基因)
+ordergene &lt;- row.names(deg)[order(deg$qval)][1:400]
+cds &lt;- reduceDimension(cds, max_components = 2,
+    method = 'DDRTree')
+cds &lt;- orderCells(cds)
+#⚠️使用root_state参数可以设置拟时间轴的根，如下面的拟时间着色图中可以看出，左边是根。根据state图可以看出，根是State1，若要想把另一端设为根，可以按如下操作
+#cds &lt;- orderCells(cds, root_state = 5) #把State5设成拟时间轴的起始点
+pdf(&quot;train.monocle.pseudotime.pdf&quot;,width = 7,height = 7)
+plot_cell_trajectory(cds,color_by=&quot;Pseudotime&quot;, size=1,show_backbone=TRUE) 
+dev.off()
+
+pdf(&quot;train.monocle.celltype.pdf&quot;,width = 7,height = 7)
+plot_cell_trajectory(cds,color_by=&quot;celltype&quot;, size=1,show_backbone=TRUE)
+dev.off()
+
+pdf(&quot;train.monocle.state.pdf&quot;,width = 7,height = 7)
+plot_cell_trajectory(cds, color_by = &quot;State&quot;,size=1,show_backbone=TRUE)
+dev.off()
+
+pdf(&quot;seurat.clusters.pdf&quot;,width = 7,height = 7)
+plot_cell_trajectory(cds, color_by = &quot;seurat_clusters&quot;)
+dev.off()
+
+
+library(ggsci)
+p1=plot_cell_trajectory(cds, color_by = &quot;cell_type&quot;)  + scale_color_npg() 
+p2=plot_cell_trajectory(cds, color_by = &quot;State&quot;)  + scale_color_nejm()
+colour=c(&quot;#DC143C&quot;,&quot;#0000FF&quot;,&quot;#20B2AA&quot;,&quot;#FFA500&quot;,&quot;#9370DB&quot;,&quot;#98FB98&quot;,&quot;#F08080&quot;)
+p3=plot_cell_trajectory(cds, color_by = &quot;State&quot;)  + scale_color_manual(values = colour)
+p1|p2|p3
+
+p1 &lt;- plot_cell_trajectory(cds, x = 1, y = 2, color_by = &quot;celltype&quot;) + 
+  theme(legend.position='none',panel.border = element_blank())
+p2 &lt;- plot_complex_cell_trajectory(cds, x = 1, y = 2,
+                                   color_by = &quot;celltype&quot;)+
+  theme(legend.title = element_blank()) 
+ggsave(&quot;tree+train.monocle.celltype.pdf&quot;, p1|p2, width = 18, height = 9)
+
+
+library(ggpubr)
+df &lt;- pData(cds) 
+
+p&lt;-ggplot(df, aes(Pseudotime, colour = celltype, fill=celltype)) +
+    geom_density(bw=0.5,size=1,alpha = 0.5)+theme_classic2()
+ggsave(&quot;cellmidu.pdf&quot;, p, width = 18, height = 12)
+
+#这里是把排序基因（ordergene）提取出来做回归分析，来找它们是否跟拟时间有显著的关系
+#如果不设置，就会用所有基因来做它们与拟时间的相关性
+Time_diff &lt;- differentialGeneTest(cds[ordergene,], cores = 1, 
+                                  fullModelFormulaStr = &quot;~sm.ns(Pseudotime)&quot;)
+Time_diff &lt;- Time_diff[,c(5,2,3,4,1,6,7)] #把gene放前面，也可以不改
+write.csv(Time_diff, &quot;Time_diff_all.csv&quot;, row.names = F)
+Time_genes &lt;- Time_diff %&gt;% pull(gene_short_name) %&gt;% as.character()
+p=plot_pseudotime_heatmap(cds[Time_genes,], num_clusters=16, show_rownames=T, return_heatmap=T)
+ggsave(&quot;Time_heatmapAll.pdf&quot;, p, width = 5, height = 10)
+</code></pre>
+<p><img alt="拟时1" src="../img/29.png" title="拟时1" />
+<img alt="拟时2" src="../img/30.png" title="拟时2" />
+<img alt="拟时3" src="../img/31.png" title="拟时3" />
+<img alt="拟时4" src="../img/32.png" title="拟时4" /></p>
+<h3 id="monocle3">Monocle3</h3>
+<pre><code>library(Seurat)
+library(monocle3)
+library(tidyverse)
+library(patchwork)
+rm(list=ls())
+dir.create(&quot;Monocle3&quot;)
+setwd(&quot;Monocle3&quot;)
+
+
+
+data &lt;- GetAssayData(pbmc, assay = 'RNA', slot = 'counts')
+cell_metadata &lt;- pbmc@meta.data
+gene_annotation &lt;- data.frame(gene_short_name = rownames(data))
+rownames(gene_annotation) &lt;- rownames(data)
+cds &lt;- new_cell_data_set(data,
+                         cell_metadata = cell_metadata,
+                         gene_metadata = gene_annotation)
+cds &lt;- preprocess_cds(cds, num_dim = 50)
+pdf(&quot;1.pdf&quot;)
+plot_pc_variance_explained(cds)
+dev.off()
+
+cds &lt;- reduce_dimension(cds,preprocess_method = &quot;PCA&quot;) #preprocess_method默认是PCA
+pdf(&quot;2.pdf&quot;)
+plot_cells(cds)
+dev.off()
+
+p1 &lt;- plot_cells(cds, reduction_method=&quot;UMAP&quot;, color_cells_by=&quot;seurat_clusters&quot;) + ggtitle('cds.umap')
+
+##从seurat导入整合过的umap坐标
+cds.embed &lt;- cds@int_colData$reducedDims$UMAP
+int.embed &lt;- Embeddings(pbmc, reduction = &quot;umap&quot;)
+int.embed &lt;- int.embed[rownames(cds.embed),]
+cds@int_colData$reducedDims$UMAP &lt;- int.embed
+p2 &lt;- plot_cells(cds, reduction_method=&quot;UMAP&quot;, color_cells_by=&quot;seurat_clusters&quot;) + ggtitle('int.umap')
+p = p1|p2
+ggsave(&quot;Reduction_Compare.pdf&quot;, plot = p, width = 10, height = 5)
+cds &lt;- reduce_dimension(cds, reduction_method=&quot;tSNE&quot;)
+cds &lt;- cluster_cells(cds) 
+cds &lt;- learn_graph(cds)
+p = plot_cells(cds, color_cells_by = &quot;celltype&quot;, label_groups_by_cluster=FALSE,
+           label_leaves=FALSE, label_branch_points=FALSE)
+ggsave(&quot;Trajectory.pdf&quot;, plot = p, width = 8, height = 6)
+p&lt;-plot_cells(cds, color_cells_by = &quot;celltype&quot;, label_groups_by_cluster=FALSE,
+               label_leaves=TRUE, label_branch_points=TRUE,graph_label_size=1.5)
+ggsave(&quot;Trajectory1.pdf&quot;, plot = p, width = 8, height = 6)
+
+
+###
+get_earliest_principal_node  &lt;- function(cds, time_bin=&quot;IgG Plasma B Cells&quot;){
+  cell_ids &lt;- which(colData(cds)[, &quot;celltype&quot;] == time_bin)
+
+  closest_vertex &lt;-cds@principal_graph_aux[[&quot;UMAP&quot;]]$pr_graph_cell_proj_closest_vertex
+  closest_vertex &lt;- as.matrix(closest_vertex[colnames(cds), ])
+  root_pr_nodes &lt;-
+    igraph::V(principal_graph(cds)[[&quot;UMAP&quot;]])$name[as.numeric(names(which.max(table(closest_vertex[cell_ids,]))))]
+
+  root_pr_nodes
+}
+cds = order_cells(cds, root_pr_nodes=get_earliest_principal_node(cds))
+
+p&lt;-plot_cells(cds,
+           color_cells_by = &quot;pseudotime&quot;,
+           label_cell_groups=FALSE,
+           label_leaves=TRUE,
+           label_branch_points=FALSE,
+           show_trajectory_graph = TRUE)
+ggsave(&quot;Trajectory2.pdf&quot;, plot = p, width = 8, height = 6)
+</code></pre>
+<p><img alt="拟时5" src="../img/43.png" title="拟时5" />
+<img alt="拟时6" src="../img/44.png" title="拟时6" />
+<img alt="拟时7" src="../img/45.png" title="拟时7" /></p>
+<h3 id="rna-velocity">RNA Velocity</h3>
+<pre><code>library(velocyto.R)
+input_loom &lt;- &quot;severe.loom&quot;
+ldat &lt;- read.loom.matrices(input_loom)
+emat &lt;- ldat$spliced
+emat &lt;- emat[,colSums(emat)&gt;=1e3]
+#install.packages(&quot;pagoda2&quot;)
+library(pagoda2)
+rownames(emat) &lt;- make.unique(rownames(emat))
+r &lt;- Pagoda2$new(emat,modelType='plain',trim=10,log.scale=T)
+r$adjustVariance(plot=T,do.par=T,gam.k=10)
+r$calculatePcaReduction(nPcs=100,n.odgenes=3e3,maxit=300)
+r$makeKnnGraph(k=30,type='PCA',center=T,distance='cosine')
+r$getKnnClusters(method=multilevel.community,type='PCA',name='multilevel')
+r$getEmbedding(type='PCA',embeddingType='tSNE',perplexity=50,verbose=T)
+pdf(&quot;r_plotEmbedding.pdf&quot;,width=15,height=15)
+
+r$plotEmbedding(type='PCA',embeddingType='tSNE',show.legend=F,mark.clusters=T,min.group.size=10,shuffle.colors=F,mark.cluster.cex=1,alpha=0.3,main='cell clusters')
+dev.off()
+#此行代码会报错r$plotEmbedding(type='PCA',embeddingType='tSNE',colors=r$counts[,&quot;Xist&quot;],main='Xist')  
+emat &lt;- ldat$spliced
+nmat &lt;- ldat$unspliced
+emat &lt;- emat[,rownames(r$counts)]
+nmat &lt;- nmat[,rownames(r$counts)] # restrict to cells that passed p2 filter
+cluster.label &lt;- r$clusters$PCA[[1]]
+cell.colors &lt;- sccore::fac2col(cluster.label)
+emb &lt;- r$embeddings$PCA$tSNE
+cell.dist &lt;- as.dist(1-armaCor(t(r$reductions$PCA)))
+emat &lt;- filter.genes.by.cluster.expression(emat,cluster.label,min.max.cluster.average = 0.5)
+nmat &lt;- filter.genes.by.cluster.expression(nmat,cluster.label,min.max.cluster.average = 0.05)
+length(intersect(rownames(emat),rownames(emat)))
+fit.quantile &lt;- 0.02
+rvel.cd &lt;- gene.relative.velocity.estimates(emat,nmat,deltaT=1,kCells=20,cell.dist=cell.dist,fit.quantile=fit.quantile)
+pdf(&quot;show.velocity.on.embedding.cor.pdf&quot;,width=15,height=15)
+show.velocity.on.embedding.cor(emb,rvel.cd,n=300,scale='sqrt',cell.colors=ac(cell.colors,alpha=0.5),cex=0.8,arrow.scale=5,show.grid.flow=TRUE,min.grid.cell.mass=0.5,grid.n=40,arrow.lwd=1,do.par=F,cell.border.alpha = 0.1)
+dev.off()
+
+</code></pre>
+<p><img alt="拟时8" src="../img/50.png" title="拟时8" />
+<img alt="拟时9" src="../img/51.png" title="拟时9" /></p>
+<h2 id="igg-plasma-b-cells">IgG Plasma B Cells差异表达基因</h2>
+<pre><code>library(msigdbr)
+library(ggplot2)
+library(clusterProfiler)
+library(org.Mm.eg.db) ##加载小鼠
+library(org.Hs.eg.db) ##加载人类
+library(fgsea)
+library(dplyr)
+library(tibble)
+library(Seurat)
+Bcell &lt;- subset(pbmc, celltype==&quot;IgG Plasma B Cells&quot;)
+
+cell_selection &lt;- SetIdent(Bcell, value = &quot;stim&quot;)
+
+Bmarkers &lt;- FindMarkers(cell_selection, ident.1 = &quot;health&quot;, ident.2 = c(&quot;mild&quot;,&quot;severe&quot;), min.pct = 0.25)
+up &lt;-rownames(Bmarkers[intersect(which(Bmarkers[,1]&lt;0.05),which(Bmarkers[,2]&gt;=0.25)),])
+down &lt;-rownames(Bmarkers[intersect(which(Bmarkers[,1]&lt;0.05),which(Bmarkers[,2]&lt;=(-0.25))),])
+##识别up ，down genes
+gs = bitr(down, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+
+pdf(&quot;Bcell_down_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Health Vs.Disease down gene GoTerm&quot;))
+dev.off()
+
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+pdf(&quot;Bcell_down_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_Down_biological&quot;)) #展示前十个条目
+dev.off()
+
+gs = bitr(up, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+pdf(&quot;Bcell_up_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Health Vs.Disease up gene GoTerm&quot;))
+dev.off()
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+pdf(&quot;Bcell_up_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_biological&quot;)) 
+dev.off()
+</code></pre>
+<p>up：
+<img alt="差异1" src="../img/33.png" title="差异1" />
+<img alt="差异2" src="../img/34.png" title="差异2" />
+down：
+<img alt="差异3" src="../img/35.png" title="差异3" />
+<img alt="差异4" src="../img/36.png" title="差异4" />
+all:
+<img alt="差异5" src="../img/46.png" title="差异5" />
+<img alt="差异6" src="../img/47.png" title="差异6" /></p>
+<h2 id="igg-plasma-b-cells_1">IgG Plasma B Cells亚群细分</h2>
+<pre><code>library(Seurat)
+Stromal &lt;- subset(pbmc, celltype==&quot;IgG Plasma B Cells&quot;)
+Stromal &lt;- ScaleData(Stromal, vars.to.regress = c(&quot;nCount_RNA&quot;, &quot;percent.mt&quot;), verbose = FALSE)
+Stromal &lt;- FindVariableFeatures(Stromal, nfeatures = 2000)
+Stromal &lt;- RunPCA(Stromal, npcs = 8, verbose = FALSE)
+Stromal &lt;- FindNeighbors(Stromal, reduction = &quot;pca&quot;, dims = 1:8)
+Stromal &lt;- FindClusters(Stromal, 
+                        resolution = seq(from = 0.1, 
+                                         to = 1.0, 
+                                         by = 0.2))
+Stromal &lt;- RunUMAP(Stromal, reduction = &quot;pca&quot;, dims = 1:8)
+library(clustree)
+#clustree(Stromal)
+Idents(Stromal) &lt;- &quot;RNA_snn_res.0.5&quot;
+Stromal$seurat_clusters &lt;- Stromal@active.ident
+p&lt;-DimPlot(Stromal, label = T,pt.size = 1)
+ggsave(&quot;IgG_Plasma_B_Cells.pdf&quot;, p, width = 12, height = 12)
+
+
+Stromal.markers &lt;- FindAllMarkers(Stromal, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+library(dplyr)
+top5 &lt;- Stromal.markers %&gt;% group_by(cluster) %&gt;% top_n(n = 5, wt = avg_log2FC)
+p &lt;- DoHeatmap(Stromal, features = top5$gene) + NoLegend()
+ggsave(&quot;IgG_Plasma_B_CellsHeatmap.pdf&quot;, p, width = 18, height = 12)
+
+###########################################
+table(Stromal$stim)
+prop.table(table(Idents(Stromal)))
+table(Idents(Stromal), Stromal$stim)
+
+
+cluster7.markers &lt;- FindMarkers(Stromal, ident.1 = 7, ident.2 = c(0:6), min.pct = 0.25)
+up &lt;-rownames(cluster7.markers[intersect(which(cluster7.markers [,1]&lt;0.05),which(cluster7.markers [,2]&gt;=0.25)),])
+down &lt;-rownames(cluster5.markers[intersect(which(cluster7.markers [,1]&lt;0.05),which(cluster7.markers [,2]&lt;=(-0.25))),])
+##识别up ，down genes
+gs = bitr(up, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+
+pdf(&quot;Cluster7_up_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Cluster7 Vs.Cluster0:6 up gene GoTerm&quot;))
+dev.off()
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+
+pdf(&quot;Cluster7_up_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_Up_biological&quot;)) #展示前十个条目
+dev.off()
+
+gs = bitr(down, fromType=&quot;SYMBOL&quot;, toType=&quot;ENTREZID&quot;, OrgDb=&quot;org.Hs.eg.db&quot;)
+head(gs)
+ego.bp = enrichGO(gene=gs$ENTREZID, OrgDb = org.Hs.eg.db,ont= &quot;BP&quot;,pAdjustMethod = &quot;BH&quot;,pvalueCutoff= 0.05,qvalueCutoff= 0.2,readable= TRUE)                    
+head(ego.bp)
+
+pdf(&quot;Cluster7_down_go.pdf&quot;, height =5, width = 10)
+print(dotplot(ego.bp, showCategory=10,title=&quot;Cluster7Vs.Cluster0:6 down gene GoTerm&quot;))
+dev.off()
+kk &lt;- enrichKEGG(gene= gs$ENTREZID, organism     = 'hsa',pvalueCutoff = 0.05)
+
+pdf(&quot;Cluster7_down_kegg.pdf&quot;, height =5, width = 10)
+print(dotplot(kk, showCategory=10,title=&quot;KEGG_biological&quot;)) 
+dev.off()
+</code></pre>
+<p><img alt="细分1" src="../img/37.png" title="细分1" />
+<img alt="细分2" src="../img/38.png" title="细分2" />
+健康组IgG Plasma B Cells大多在第七簇，第七簇与其他簇的差异表达基因分析
+up:
+<img alt="细分3" src="../img/39.png" title="细分3" />
+<img alt="细分4" src="../img/40.png" title="细分4" />
+down:
+<img alt="细分5" src="../img/41.png" title="细分5" />
+<img alt="细分6" src="../img/42.png" title="细分6" />
+all:
+<img alt="细分7" src="../img/48.png" title="细分7" />
+<img alt="细分8" src="../img/49.png" title="细分8" /></p>
+<h2 id="-cellphonedb">细胞通讯-cellphoneDB</h2>
+<pre><code>library(Seurat)
+library(SeuratData)
+#SeuratData::InstallData(&quot;pbmc3k&quot;)
+
+#你们可以不执行上面的代码，直接执行下面一行代码
+pbmc&lt;-readRDS(&quot;&quot;/home/xxy/singlecell/All_注释_scRNA.rds&quot;&quot;)
+write.table(as.matrix(pbmc@assays$RNA@data), 'cellphonedb_count.txt', sep='\t', quote=F)
+meta_data &lt;- cbind(rownames(pbmc@meta.data), pbmc@meta.data[,'celltype', drop=F])  
+meta_data &lt;- as.matrix(meta_data)
+meta_data[is.na(meta_data)] = &quot;Unkown&quot; #  细胞类型中不能有NA
+
+
+
+write.table(meta_data, 'cellphonedb_meta.txt', sep='\t', quote=F, row.names=F)
+</code></pre>
+<pre><code>cellphonedb method statistical_analysis  cellphonedb_meta.txt  cellphonedb_count.txt --counts-data=gene_name
+cellphonedb plot dot_plot 
+cellphonedb plot heatmap_plot cellphonedb_meta.txt 
+</code></pre>
+<pre><code>library(psych)
+library(qgraph)
+library(igraph)
+library(tidyverse)
+
+###count_network.txt来源于cellphonedb跑的结果，在out文件夹中
+#netf&lt;- &quot;count_network.txt&quot;
+mynet &lt;- read.delim(&quot;count_network.txt&quot;, check.names = FALSE)
+table(mynet$count)
+mynet %&gt;% filter(count&gt;0) -&gt; mynet  # 有零会报错
+head(mynet)
+# SOURCE       TARGET count
+# 1 Memory CD4 T Memory CD4 T     3
+# 2 Memory CD4 T            B    10
+# 3 Memory CD4 T   CD14+ Mono    14
+# 4 Memory CD4 T           NK    15
+# 5 Memory CD4 T        CD8 T     6
+# 6 Memory CD4 T  Naive CD4 T     3
+
+net&lt;- graph_from_data_frame(mynet)
+pdf(&quot;net.pdf&quot;,width=50,height=15)
+plot(net)
+dev.off()
+#####为了给这个网络图的边点mapping上不同的属性引入一串颜色
+allcolour=c(&quot;#DC143C&quot;,&quot;#0000FF&quot;,&quot;#20B2AA&quot;,&quot;#FFA500&quot;,&quot;#9370DB&quot;,
+            &quot;#98FB98&quot;,&quot;#F08080&quot;,&quot;#1E90FF&quot;,&quot;#7CFC00&quot;,&quot;#FFFF00&quot;,
+            &quot;#808000&quot;,&quot;#FF00FF&quot;,&quot;#FA8072&quot;,&quot;#7B68EE&quot;,&quot;#9400D3&quot;,
+            &quot;#800080&quot;,&quot;#A0522D&quot;,&quot;#D2B48C&quot;,&quot;#D2691E&quot;,&quot;#87CEEB&quot;,
+            &quot;#40E0D0&quot;,&quot;#5F9EA0&quot;,&quot;#FF1493&quot;,
+            &quot;#FFE4B5&quot;,&quot;#8A2BE2&quot;,&quot;#228B22&quot;,&quot;#E9967A&quot;,&quot;#4682B4&quot;,
+            &quot;#32CD32&quot;,&quot;#F0E68C&quot;,&quot;#FFFFE0&quot;,&quot;#EE82EE&quot;,&quot;#FF6347&quot;,
+            &quot;#6A5ACD&quot;,&quot;#9932CC&quot;,&quot;#8B008B&quot;,&quot;#8B4513&quot;,&quot;#DEB887&quot;)
+
+
+karate_groups &lt;- cluster_optimal(net)
+coords &lt;- layout_in_circle(net, order =
+                             order(membership(karate_groups)))  # 设置网络布局
+
+E(net)$width  &lt;- E(net)$count/10  # 边点权重（粗细）
+pdf(&quot;net2.pdf&quot;,width=18,height=15)
+plot(net, edge.arrow.size=.1, 
+     edge.curved=0,
+     vertex.color=allcolour,
+     vertex.frame.color=&quot;#555555&quot;,
+     vertex.label.color=&quot;black&quot;,
+     layout = coords,
+     vertex.label.cex=.7) 
+dev.off()
+###########但是边的颜色和点的颜色还是对应不上，修改一番边的属性。
+net2 &lt;- net  # 复制一份备用
+
+for (i in 1: length(unique(mynet$SOURCE)) ){
+  E(net)[map(unique(mynet$SOURCE),function(x) {
+    get.edge.ids(net,vp = c(unique(mynet$SOURCE)[i],x))
+  })%&gt;% unlist()]$color &lt;- allcolour[i]
+}  
+
+
+###把线条做成曲线
+pdf(&quot;net3.pdf&quot;,width=18,height=15)
+plot(net, edge.arrow.size=.1, 
+     edge.curved=0.2, # 只是调了这个参数
+     vertex.color=allcolour,
+     vertex.frame.color=&quot;#555555&quot;,
+     vertex.label.color=&quot;black&quot;,
+     layout = coords,
+     vertex.label.cex=.7) 
+dev.off()
+####接下来，我们来绘制第二组类型贝壳一样的网络图
+
+length(unique(mynet$SOURCE))
+pdf(&quot;net4.pdf&quot;,width=50,height=50)
+par(mfrow=c(2,5), mar=c(.3,.3,.3,.3))
+
+for (i in 1: length(unique(mynet$SOURCE)) ){
+  net1&lt;-net2
+
+  E(net1)$count &lt;- &quot;&quot;
+  E(net1)[map(unique(mynet$SOURCE),function(x) {
+    get.edge.ids(net,vp = c(unique(mynet$SOURCE)[i],x))
+  })%&gt;% unlist()]$count  &lt;- E(net2)[map(unique(mynet$SOURCE),function(x) {
+    get.edge.ids(net,vp = c(unique(mynet$SOURCE)[i],x))
+  })%&gt;% unlist()]$count  # 故技重施
+
+  E(net1)[map(unique(mynet$SOURCE),function(x) {
+    get.edge.ids(net,vp = c(unique(mynet$SOURCE)[i],x))
+  })%&gt;% unlist()]$color &lt;- allcolour[i]
+
+  plot(net1, edge.arrow.size=.1, 
+       edge.curved=0.4,
+       edge.label = E(net1)$count, # 绘制边的权重
+       vertex.color=allcolour,
+       vertex.frame.color=&quot;#555555&quot;,
+       vertex.label.color=&quot;black&quot;,
+       layout = coords,
+       vertex.label.cex=1
+  ) 
+
+}
+
+
+dev.off()
+</code></pre>
+<p><img alt="通讯1" src="../img/52.png" title="通讯1" />
+<img alt="通讯2" src="../img/53.png" title="通讯2" />
+<img alt="通讯3" src="../img/54.png" title="通讯3" />
+<img alt="通讯4" src="../img/55.png" title="通讯4" /></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../resultanalysis/" class="btn btn-neutral float-right" title="Result Analysis">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Background"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../resultanalysis/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

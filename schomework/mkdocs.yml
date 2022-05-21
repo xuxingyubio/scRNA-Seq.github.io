@@ -1,0 +1,10 @@
+site_name: Myhomework
+
+nav :
+  - "Background": index.md
+  #- "Introduction": introduction.md
+  - "Analysis Process": Analysisprocess.md
+  #- "RNA-Seq Results": RNA-Seqresult.md
+  - "Result Analysis": resultanalysis.md
+
+theme: readthedocs
